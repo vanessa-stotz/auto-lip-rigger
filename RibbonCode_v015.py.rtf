@@ -1,0 +1,1009 @@
+{\rtf1\ansi\deff0\deftab480
+
+{\fonttbl
+{\f000 Courier New;}
+{\f001 Courier New;}
+{\f002 Courier New;}
+{\f003 Courier New;}
+{\f004 Courier New;}
+{\f005 Courier New;}
+{\f006 Courier New;}
+{\f007 Courier New;}
+{\f008 Courier New;}
+{\f009 Courier New;}
+{\f010 Courier New;}
+{\f011 Courier New;}
+{\f012 Courier New;}
+{\f013 Courier New;}
+}
+
+{\colortbl
+\red000\green000\blue000;
+\red255\green255\blue255;
+\red000\green128\blue192;
+\red255\green255\blue255;
+\red255\green000\blue000;
+\red255\green255\blue255;
+\red000\green128\blue000;
+\red255\green255\blue255;
+\red000\green128\blue000;
+\red255\green255\blue255;
+\red000\green000\blue255;
+\red255\green255\blue255;
+\red000\green128\blue192;
+\red255\green255\blue255;
+\red255\green000\blue000;
+\red255\green255\blue255;
+\red255\green000\blue000;
+\red255\green255\blue255;
+\red000\green000\blue128;
+\red255\green255\blue255;
+\red000\green000\blue000;
+\red255\green255\blue255;
+\red136\green000\blue136;
+\red255\green255\blue255;
+\red000\green128\blue000;
+\red255\green255\blue255;
+\red000\green000\blue000;
+\red255\green255\blue255;
+}
+
+\f771777536\fs20\cb27\cf26 \highlight13\cf12\i0 """\par
+Der folgende Quelltext erstellt ein automatisiertes Tool zur \par
+Erstellung eines Rigges f\u252?r den Mund.\par
+Dieser Quelltext ist im Rahmen der Bachelorarbeit mit dem Thema \par
+"Entwicklung eines automatisierten Rigging Tools zum Riggen eines \par
+Mundes nach Betrachtung und Bewertung zweier g\u228?ngigen Rigging \par
+Frameworks in Maya" entstanden.\par
+F\u252?r diesen Quelltext wurden ausschlie\u223?lich bekannte Funktionen \par
+verwendet. Er beinhaltet keine au\u223?ergew\u246?hnlichen Ideen \par
+anderer Personen.\par
+Stand: 15.08.2022\par
+Verfasserin: Vanessa Stotz\par
+"""\highlight1\cf0\i0 \par
+\highlight11\cf10\b import\highlight1\cf0\b0  \highlight21\cf20 pymel\highlight19\cf18\b .\highlight21\cf20\b0 core\highlight1\cf0  \highlight11\cf10\b as\highlight1\cf0\b0  \highlight21\cf20 pm\highlight1\cf0 \par
+\highlight11\cf10\b from\highlight1\cf0\b0  \highlight21\cf20 pymel\highlight19\cf18\b .\highlight21\cf20\b0 core\highlight19\cf18\b .\highlight21\cf20\b0 datatypes\highlight1\cf0  \highlight11\cf10\b import\highlight1\cf0\b0  \highlight21\cf20 Vector\highlight1\cf0 \par
+\highlight11\cf10\b from\highlight1\cf0\b0  \highlight21\cf20 PySide2\highlight1\cf0  \highlight11\cf10\b import\highlight1\cf0\b0  \highlight21\cf20 QtCore\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight1\cf0 \par
+\highlight11\cf10\b from\highlight1\cf0\b0  \highlight21\cf20 shiboken2\highlight1\cf0  \highlight11\cf10\b import\highlight1\cf0\b0  \highlight21\cf20 wrapInstance\highlight1\cf0 \par
+\highlight11\cf10\b import\highlight1\cf0\b0  \highlight21\cf20 maya\highlight19\cf18\b .\highlight21\cf20\b0 OpenMayaUI\highlight1\cf0  \highlight11\cf10\b as\highlight1\cf0\b0  \highlight21\cf20 omui\highlight1\cf0 \par
+\par
+\par
+\highlight13\cf12\i0 """\par
+Diese Funktion konvertiert den ausgew\u228?hlten Edge-Loop \par
+in eine NURBS-Kurve.\par
+Sie erwartet einen Edge-Loop, das definierte Pr\u228?fix sowie die \par
+Nummer der NURBS-Kurve.\par
+Durch polyToCurve wird der Edge-Loop in eine NURBS-Kurve konvertiert\par
+Die erstellte NURBS-Kurve wird wieder zur\u252?ckgegeben.\par
+"""\highlight1\cf0\i0 \par
+\highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 get_edge_curve\highlight19\cf18\b (\highlight21\cf20\b0 selectedEdge\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 prefix\highlight19\cf18\b :\highlight1\cf0\b0  \highlight23\cf22\b str\highlight19\cf18 =\highlight7\cf6\b0 ""\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 numCurve\highlight19\cf18\b :\highlight1\cf0\b0  \highlight23\cf22\b int\highlight19\cf18 =\highlight5\cf4\b0 0\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 select\highlight19\cf18\b (\highlight21\cf20\b0 selectedEdge\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 replace\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+    \highlight21\cf20 curve\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 polyToCurve\highlight19\cf18\b (\highlight21\cf20\b0 constructionHistory\highlight19\cf18\b =\highlight5\cf4\b0 0\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 form\highlight19\cf18\b =\highlight5\cf4\b0 2\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 degree\highlight19\cf18\b =\highlight5\cf4\b0 3\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                \highlight21\cf20 conformToSmoothMeshPreview\highlight19\cf18\b =\highlight5\cf4\b0 0\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                \highlight21\cf20 name\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight25\cf24 f"\{\highlight21\cf20 prefix\highlight25\cf24 \}_00\{\highlight21\cf20 numCurve\highlight25\cf24 \}_crv"\highlight1\cf0  \highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 curve\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 rebuildCurve\highlight19\cf18\b (\highlight21\cf20\b0 curve\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 constructionHistory\highlight19\cf18\b =\highlight5\cf4\b0 0\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                \highlight21\cf20 replaceOriginal\highlight19\cf18\b =\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 rebuildType\highlight19\cf18\b =\highlight5\cf4\b0 0\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 endKnots\highlight19\cf18\b =\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                \highlight21\cf20 keepRange\highlight19\cf18\b =\highlight5\cf4\b0 0\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 keepControlPoints\highlight19\cf18\b =\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                \highlight21\cf20 keepEndPoints\highlight19\cf18\b =\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 keepTangents\highlight19\cf18\b =\highlight5\cf4\b0 0\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 degree\highlight19\cf18\b =\highlight5\cf4\b0 3\highlight19\cf18\b )[\highlight5\cf4\b0 0\highlight19\cf18\b ]\highlight1\cf0\b0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 select\highlight19\cf18\b (\highlight21\cf20\b0 clear\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+\par
+    \highlight11\cf10\b return\highlight1\cf0\b0  \highlight21\cf20 curve\highlight1\cf0 \par
+\par
+\highlight13\cf12\i0 """\par
+Diese Funktion bestimmt die Anzahl der erstellten Follicles und \par
+der deformierenden Joints. Sie erwartet als Eingabe den \par
+ausgew\u228?hlten Edge-Loop. \par
+Durch polyEvaluate werden die Edges, aus denen der \par
+Edge-Loop besteht, gez\u228?hlt.\par
+Diese Zahl wird wieder zur\u252?ckgegeben.\par
+"""\highlight1\cf0\i0 \par
+\highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 get_edge_count\highlight19\cf18\b (\highlight21\cf20\b0 selectedEdge\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 select\highlight19\cf18\b (\highlight21\cf20\b0 selectedEdge\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 replace\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight19\cf18 )\highlight1\cf0\b0 \par
+    \highlight21\cf20 edge_count\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 polyEvaluate\highlight19\cf18\b (\highlight21\cf20\b0 edgeComponent\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 select\highlight19\cf18\b (\highlight21\cf20\b0 clear\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+\par
+    \highlight11\cf10\b return\highlight1\cf0\b0  \highlight21\cf20 edge_count\highlight1\cf0 \par
+\par
+\par
+\highlight13\cf12\i0 """\par
+Diese Funktion passt den Startpunkt der Kurven an \par
+den ausgew\u228?hlten Vertexpunkt an.\par
+Sie erwartet als Eingabe eine NURBS-Kurve sowie \par
+die Position des Vertexpunktes.\par
+Die nearestPointOnCurve Node bestimmt den naheliegendsten \par
+Punkt zum Vertexpunkt.\par
+Dieser wird ausgew\u228?hlt und durch MoveCurveSeam als \par
+Startpunkt festgelegt.\par
+Die ver\u228?nderte Kurve wird wieder zur\u252?ckgegeben\par
+"""\highlight1\cf0\i0 \par
+\highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 move_Seam\highlight19\cf18\b (\highlight21\cf20\b0 vertex_position\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 crv\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+    \highlight21\cf20 nearest_point_node\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 createNode\highlight19\cf18\b (\highlight7\cf6\b0 "nearestPointOnCurve"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 nearest_point_node\highlight19\cf18\b .\highlight21\cf20\b0 inPosition\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight21\cf20\b0 vertex_position\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 crv\highlight19\cf18\b .\highlight21\cf20\b0 getShape\highlight19\cf18\b ().\highlight21\cf20\b0 attr\highlight19\cf18\b (\highlight7\cf6\b0 "worldSpace[0]"\highlight19\cf18\b )\highlight1\cf0\b0  \highlight19\cf18\b >>\highlight1\cf0\b0  \\\par
+                        \highlight21\cf20 nearest_point_node\highlight19\cf18\b .\highlight21\cf20\b0 inputCurve\highlight1\cf0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 select\highlight19\cf18\b (\highlight21\cf20\b0 crv\highlight19\cf18\b .\highlight21\cf20\b0 u\highlight19\cf18\b [\highlight21\cf20\b0 nearest_point_node\highlight19\cf18\b .\highlight21\cf20\b0 parameter\highlight19\cf18\b .\highlight21\cf20\b0 get\highlight19\cf18\b ()],\highlight1\cf0\b0  \highlight21\cf20 replace\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 mel\highlight19\cf18\b .\highlight23\cf22 eval\highlight19\cf18 (\highlight7\cf6\b0 "MoveCurveSeam;"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 delete\highlight19\cf18\b (\highlight21\cf20\b0 nearest_point_node\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 select\highlight19\cf18\b (\highlight21\cf20\b0 clear\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight19\cf18 )\highlight1\cf0\b0 \par
+\par
+    \highlight11\cf10\b return\highlight1\cf0\b0  \highlight21\cf20 crv\highlight1\cf0 \par
+\par
+\highlight13\cf12\i0 """\par
+Diese Funktion bestimmt den Abstand zwischen den zwei Kurven und \par
+definiert dadurch die Gr\u246?\u223?e der Joints und Controller.\par
+Sie erwartet als Eingabe die beiden NURBS-Kurven.\par
+Durch pointOnCurveInfo wird die Position eines Punktes auf \par
+der Kurve bestimmt, dieser wird in einem Vektor gespeichert. \par
+Um die Gr\u246?\u223?e zu definieren, wird der Abstand zwischen den \par
+beiden Punkten gemessen.\par
+Der Wert der Gr\u246?\u223?e wird zur\u252?ckgegeben.\par
+"""\highlight1\cf0\i0 \par
+\highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 get_reference_size\highlight19\cf18\b (\highlight21\cf20\b0 crv_1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 crv_2\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+    \par
+    \highlight21\cf20 size_node\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 createNode\highlight19\cf18\b (\highlight7\cf6\b0 "pointOnCurveInfo"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 crv_1\highlight19\cf18\b .\highlight21\cf20\b0 getShape\highlight19\cf18\b ().\highlight21\cf20\b0 attr\highlight19\cf18\b (\highlight7\cf6\b0 "worldSpace[0]"\highlight19\cf18\b )\highlight1\cf0\b0  \highlight19\cf18\b >>\highlight1\cf0\b0  \highlight21\cf20 size_node\highlight19\cf18\b .\highlight21\cf20\b0 inputCurve\highlight1\cf0 \par
+    \highlight21\cf20 crv_1_vector\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 Vector\highlight19\cf18\b (\highlight21\cf20\b0 size_node\highlight19\cf18\b .\highlight21\cf20\b0 position\highlight19\cf18\b .\highlight21\cf20\b0 get\highlight19\cf18\b ())\highlight1\cf0\b0 \par
+    \highlight21\cf20 crv_2\highlight19\cf18\b .\highlight21\cf20\b0 getShape\highlight19\cf18\b ().\highlight21\cf20\b0 attr\highlight19\cf18\b (\highlight7\cf6\b0 "worldSpace[0]"\highlight19\cf18\b )\highlight1\cf0\b0  \highlight19\cf18\b >>\highlight1\cf0\b0  \highlight21\cf20 size_node\highlight19\cf18\b .\highlight21\cf20\b0 inputCurve\highlight1\cf0 \par
+    \highlight21\cf20 crv_2_vector\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 Vector\highlight19\cf18\b (\highlight21\cf20\b0 size_node\highlight19\cf18\b .\highlight21\cf20\b0 position\highlight19\cf18\b .\highlight21\cf20\b0 get\highlight19\cf18\b ())\highlight1\cf0\b0 \par
+\par
+    \highlight21\cf20 size\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 crv_1_vector\highlight19\cf18\b .\highlight21\cf20\b0 distanceTo\highlight19\cf18\b (\highlight21\cf20\b0 crv_2_vector\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 delete\highlight19\cf18\b (\highlight21\cf20\b0 size_node\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight11\cf10\b return\highlight1\cf0\b0  \highlight21\cf20 size\highlight1\cf0 \par
+\par
+\highlight13\cf12\i0 """\par
+Diese Funktion erstellt die NURBS-Regelfl\u228?che.\par
+Sie erwartet als Eingabe die beiden NURBS-Kurven, den Vertexpunkt \par
+sowie das Pr\u228?fix. Zuerst wird der Anfangspunkt der beiden \par
+NURBS-Kurven durch Aufruf der Funktion move_seam() angepasst. \par
+Danach wird durch pm.loft() die NURBS-Regelfl\u228?che erstellt. \par
+Die NURBS-Regefl\u228?che wird auf die UV-Verteilung und \par
+Invertierung getestet.\par
+Die erstellte NURBS-Regelfl\u228?che wird zur\u252?ckgegeben.\par
+"""\highlight1\cf0\i0 \par
+\par
+\highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 get_lofted_surface\highlight19\cf18\b (\highlight21\cf20\b0 crvSeam_1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 crvSeam_2\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 vertex\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 prefix\highlight19\cf18\b :\highlight1\cf0\b0  \highlight23\cf22\b str\highlight19\cf18 =\highlight7\cf6\b0 ""\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+    \par
+    \highlight3\cf2\i0 # Speichert die Position des Vertexpunktes in \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # der Variable position, passt die Anfangspunkte an \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # und erstellt die NURBS-Regelfl\u228?che.\highlight1\cf0\i0 \par
+    \highlight21\cf20 position\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 pointPosition\highlight19\cf18\b (\highlight21\cf20\b0 vertex\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 crv_1\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 move_Seam\highlight19\cf18\b (\highlight21\cf20\b0 position\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 crvSeam_1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 crv_2\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 move_Seam\highlight19\cf18\b (\highlight21\cf20\b0 position\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 crvSeam_2\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 lofted_surface\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 loft\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 loft\highlight19\cf18\b (\highlight21\cf20\b0 crv_1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 crv_2\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                                \highlight21\cf20 name\highlight19\cf18\b =\highlight1\cf0\b0  \highlight25\cf24 f"\{\highlight21\cf20 prefix\highlight25\cf24 \}_001_NURBSPlane"\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                \highlight21\cf20 degree\highlight19\cf18\b =\highlight5\cf4\b0 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # \u220?berp\u252?ft, ob sich die Aufl\u246?sung auf den U-Werten befindet.\highlight1\cf0\i0 \par
+    \highlight21\cf20 spans\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 lofted_surface\highlight19\cf18\b .\highlight21\cf20\b0 spansUV\highlight19\cf18\b .\highlight21\cf20\b0 get\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+    \highlight11\cf10\b if\highlight1\cf0\b0  \highlight21\cf20 spans\highlight19\cf18\b [\highlight5\cf4\b0 0\highlight19\cf18\b ]\highlight1\cf0\b0  \highlight19\cf18\b <\highlight1\cf0\b0  \highlight21\cf20 spans\highlight19\cf18\b [\highlight5\cf4\b0 1\highlight19\cf18\b ]:\highlight1\cf0\b0 \par
+        \highlight21\cf20 loft\highlight19\cf18\b .\highlight21\cf20\b0 reverseSurfaceNormals\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+    \par
+    \highlight3\cf2\i0 # L\u246?scht die History der NURBS-Regelfl\u228?che\highlight1\cf0\i0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 delete\highlight19\cf18\b (\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 ch\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+   \par
+    \highlight3\cf2\i0 # Bestimmt einen Punkt auf der NURBS-Regelfl\u228?che und vergleicht\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # diesen mit dem Einheitsvektor in Z-Richtung.\highlight1\cf0\i0 \par
+    \highlight21\cf20 point_info\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 createNode\highlight19\cf18\b (\highlight7\cf6\b0 "pointOnSurfaceInfo"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 lofted_surface\highlight19\cf18\b .\highlight21\cf20\b0 getShape\highlight19\cf18\b ().\highlight21\cf20\b0 attr\highlight19\cf18\b (\highlight7\cf6\b0 "worldSpace[0]"\highlight19\cf18\b )\highlight1\cf0\b0  \highlight19\cf18\b >>\highlight1\cf0\b0  \\\par
+                                    \highlight21\cf20 point_info\highlight19\cf18\b .\highlight21\cf20\b0 inputSurface\highlight1\cf0 \par
+    \highlight21\cf20 dot\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 Vector\highlight19\cf18\b .\highlight21\cf20\b0 dot\highlight19\cf18\b ([\highlight5\cf4\b0 0\highlight19\cf18\b ,\highlight5\cf4\b0 0\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b ],\highlight21\cf20\b0 point_info\highlight19\cf18\b .\highlight21\cf20\b0 result\highlight19\cf18\b .\highlight21\cf20\b0 normal\highlight19\cf18\b .\highlight21\cf20\b0 get\highlight19\cf18\b ())\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Sollte das Ergebnis des Skalarproduktes negativ sein, \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # wird die NURBS-Regelfl\u228?che invertiert.\highlight1\cf0\i0 \par
+    \highlight11\cf10\b if\highlight1\cf0\b0  \highlight21\cf20 dot\highlight1\cf0  \highlight19\cf18\b <\highlight1\cf0\b0  \highlight5\cf4 0\highlight1\cf0  \highlight19\cf18\b :\highlight1\cf0\b0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 reverseSurface\highlight19\cf18\b (\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \par
+    \highlight3\cf2\i0 # L\u246?scht die erstellte pointOnSurfaceInfo Node.\highlight1\cf0\i0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 delete\highlight19\cf18\b (\highlight21\cf20\b0 point_info\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight11\cf10\b return\highlight1\cf0\b0  \highlight21\cf20 lofted_surface\highlight1\cf0 \par
+\par
+\highlight13\cf12\i0 """\par
+Diese Funktion erstellt die Follicles und deformierenden Joints \par
+entlang der NURBS-Regelfl\u228?che. Sie erwartet als Eingabe \par
+die NURBS-Regelfl\u228?che, das Pr\u228?fix, die Gruppe f\u252?r die Follicles,\par
+deformierenden Joints, die bereits definierte Anzahl der \par
+ben\u246?tigten Follicles und Joints sowie die bereits definierte Gr\u246?\u223?e. \par
+Die Funktion gibt keinen Wert zur\u252?ck.\par
+"""\highlight1\cf0\i0 \par
+\par
+\highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 create_surface_ribbons\highlight19\cf18\b (\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 prefix\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 follicle_grp\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                                    \highlight21\cf20 binding_joint_grp\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 u_count\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 size\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Die For-Schleife iteriert \u252?ber die Anzahl der \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # ben\u246?tigten Follicles und deformierenden Joints.\highlight1\cf0\i0 \par
+    \highlight11\cf10\b for\highlight1\cf0\b0  \highlight21\cf20 i\highlight1\cf0  \highlight11\cf10\b in\highlight1\cf0\b0  \highlight23\cf22\b range\highlight19\cf18 (\highlight21\cf20\b0 u_count\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Erstellt einen Follicle.\highlight1\cf0\i0 \par
+        \highlight21\cf20 fol_rbn\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 createNode\highlight19\cf18\b (\highlight9\cf8\b0 'transform'\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                            \highlight21\cf20 name\highlight19\cf18\b =\highlight25\cf24\b0 f"\{\highlight21\cf20 prefix\highlight25\cf24 \}_rbn_\{\highlight21\cf20 i\highlight19\cf18\b +\highlight5\cf4\b0 1\highlight25\cf24 \}_fol"\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                            \highlight21\cf20 skipSelect\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+        \highlight21\cf20 folShape_rbn\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 createNode\highlight19\cf18\b (\highlight9\cf8\b0 'follicle'\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                            \highlight21\cf20 name\highlight19\cf18\b =\highlight21\cf20\b0 fol_rbn\highlight19\cf18\b .\highlight21\cf20\b0 name\highlight19\cf18\b ()+\highlight9\cf8\b0 'Shape'\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                            \highlight21\cf20 parent\highlight19\cf18\b =\highlight21\cf20\b0 fol_rbn\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 skipSelect\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+        \highlight21\cf20 folShape_rbn\highlight19\cf18\b .\highlight21\cf20\b0 outRotate\highlight1\cf0  \highlight19\cf18\b >>\highlight1\cf0\b0  \highlight21\cf20 fol_rbn\highlight19\cf18\b .\highlight21\cf20\b0 rotate\highlight1\cf0 \par
+        \highlight21\cf20 folShape_rbn\highlight19\cf18\b .\highlight21\cf20\b0 outTranslate\highlight1\cf0  \highlight19\cf18\b >>\highlight1\cf0\b0  \highlight21\cf20 fol_rbn\highlight19\cf18\b .\highlight21\cf20\b0 translate\highlight1\cf0 \par
+        \highlight21\cf20 lofted_surface\highlight19\cf18\b .\highlight21\cf20\b0 worldMatrix\highlight1\cf0  \highlight19\cf18\b >>\highlight1\cf0\b0  \highlight21\cf20 fol_rbn\highlight19\cf18\b .\highlight21\cf20\b0 inputWorldMatrix\highlight1\cf0 \par
+        \highlight21\cf20 lofted_surface\highlight19\cf18\b .\highlight21\cf20\b0 local\highlight1\cf0  \highlight19\cf18\b >>\highlight1\cf0\b0  \highlight21\cf20 fol_rbn\highlight19\cf18\b .\highlight21\cf20\b0 inputSurface\highlight1\cf0 \par
+\par
+        \highlight3\cf2\i0 # Setzt die Position des Follicles an die gew\u252?nschte Stelle.\highlight1\cf0\i0 \par
+        \highlight21\cf20 folShape_rbn\highlight19\cf18\b .\highlight21\cf20\b0 parameterU\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight5\cf4\b0 0\highlight19\cf18\b +(\highlight5\cf4\b0 1.0\highlight19\cf18\b /\highlight21\cf20\b0 u_count\highlight19\cf18\b )\highlight1\cf0\b0  \highlight19\cf18\b *\highlight1\cf0\b0  \highlight21\cf20 i\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 folShape_rbn\highlight19\cf18\b .\highlight21\cf20\b0 parameterV\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight5\cf4\b0 0.5\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Erstellt einen Joint.\highlight1\cf0\i0 \par
+        \highlight21\cf20 rbn_joint\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 joint\highlight19\cf18\b (\highlight21\cf20\b0 radius\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 size\highlight19\cf18\b /\highlight5\cf4\b0 3\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                            \highlight21\cf20 name\highlight1\cf0  \highlight19\cf18\b =\highlight25\cf24\b0 f"\{\highlight21\cf20 prefix\highlight25\cf24 \}_\{\highlight21\cf20 i\highlight19\cf18\b +\highlight5\cf4\b0 1\highlight25\cf24 \}_bnd_jnt"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \par
+        \highlight3\cf2\i0 # Legt den Follicle und den Joint in die zugeh\u246?rige Gruppe. \highlight1\cf0\i0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight21\cf20\b0 rbn_joint\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 binding_joint_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight21\cf20\b0 fol_rbn\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 follicle_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Macht den Joint durch einen Parent-Constraint\highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # f\u252?r die Transformation sowie einen Orient-Constraint \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # f\u252?r die Rotation vom Follicle abh\u228?ngig.\highlight1\cf0\i0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parentConstraint\highlight19\cf18\b (\highlight21\cf20\b0 fol_rbn\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 rbn_joint\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                \highlight21\cf20 skipRotate\highlight19\cf18\b =[\highlight9\cf8\b0 'x'\highlight19\cf18\b ,\highlight9\cf8\b0 'y'\highlight19\cf18\b ,\highlight9\cf8\b0 'z'\highlight19\cf18\b ],\highlight1\cf0\b0  \par
+                                \highlight21\cf20 maintainOffset\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 weight\highlight19\cf18\b =\highlight5\cf4\b0 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 orientConstraint\highlight19\cf18\b (\highlight21\cf20\b0 fol_rbn\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 rbn_joint\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 maintainOffset\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 select\highlight19\cf18\b (\highlight21\cf20\b0 clear\highlight19\cf18\b =\highlight5\cf4\b0 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\highlight13\cf12\i0 """\par
+Diese Funktion berechnet den U-Wert anhand der X,Y,Z Koordinaten\par
+des H\u252?llk\u246?rpers. Sie erwartet als Eingabe die X,Y und Z Koordinate \par
+des H\u252?llk\u246?rpers sowie die NURBS-Regelfl\u228?che.\par
+Durch die closestPointOnSurface Node wird der U-Wert berechnet.\par
+Dieser wird zur\u252?ckgegeben.\par
+"""\highlight1\cf0\i0  \par
+\highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 get_corner_point\highlight19\cf18\b (\highlight21\cf20\b0 valueX\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 valueY\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 valueZ\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 lofted_surface\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+    \highlight21\cf20 nearest_point_node\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 createNode\highlight19\cf18\b (\highlight9\cf8\b0 'closestPointOnSurface'\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 lofted_surface\highlight19\cf18\b .\highlight21\cf20\b0 getShape\highlight19\cf18\b ().\highlight21\cf20\b0 attr\highlight19\cf18\b (\highlight7\cf6\b0 "worldSpace[0]"\highlight19\cf18\b )\highlight1\cf0\b0  \highlight19\cf18\b >>\highlight1\cf0\b0  \\\par
+                        \highlight21\cf20 nearest_point_node\highlight19\cf18\b .\highlight21\cf20\b0 inputSurface\highlight1\cf0 \par
+    \highlight21\cf20 nearest_point_node\highlight19\cf18\b .\highlight21\cf20\b0 inPositionX\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight21\cf20\b0 valueX\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 nearest_point_node\highlight19\cf18\b .\highlight21\cf20\b0 inPositionY\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight21\cf20\b0 valueY\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 nearest_point_node\highlight19\cf18\b .\highlight21\cf20\b0 inPositionZ\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight21\cf20\b0 valueZ\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 u_value\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 nearest_point_node\highlight19\cf18\b .\highlight21\cf20\b0 parameterU\highlight19\cf18\b .\highlight21\cf20\b0 get\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+\par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 delete\highlight19\cf18\b (\highlight21\cf20\b0 nearest_point_node\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight11\cf10\b return\highlight1\cf0\b0  \highlight21\cf20 u_value\highlight1\cf0 \par
+\par
+\highlight13\cf12\i0 """\par
+Diese Funktion platziert die kontrollierenden Joints an\par
+den gew\u252?nschten Positionen. Sie erwartet als Eingabe \par
+den U- und V-Wert, die NURBS-Regelfl\u228?che sowie das Pr\u228?fix\par
+und die Gr\u246?\u223?e. \par
+Die Funktion gibt den erstellten Joint zur\u252?ck.\par
+"""\highlight1\cf0\i0  \par
+\highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 set_control_joints\highlight19\cf18\b (\highlight1\cf0\b0  \highlight21\cf20 u_value\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 v_value\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 lofted_surface\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                        \highlight21\cf20 prefix\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 size\highlight1\cf0  \highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Erstellt einen Follicle.\highlight1\cf0\i0 \par
+    \highlight21\cf20 fol\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 createNode\highlight19\cf18\b (\highlight9\cf8\b0 'transform'\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 name\highlight1\cf0  \highlight19\cf18\b =\highlight9\cf8\b0 'follicleCorner'\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                        \highlight21\cf20 skipSelect\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+    \highlight21\cf20 folShape\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 createNode\highlight19\cf18\b (\highlight9\cf8\b0 'follicle'\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 name\highlight1\cf0  \highlight19\cf18\b =\highlight21\cf20\b0 fol\highlight19\cf18\b .\highlight21\cf20\b0 name\highlight19\cf18\b ()+\highlight9\cf8\b0 'Shape'\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                        \highlight21\cf20 parent\highlight19\cf18\b =\highlight21\cf20\b0 fol\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 skipSelect\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+    \highlight21\cf20 folShape\highlight19\cf18\b .\highlight21\cf20\b0 outRotate\highlight1\cf0  \highlight19\cf18\b >>\highlight1\cf0\b0  \highlight21\cf20 fol\highlight19\cf18\b .\highlight21\cf20\b0 rotate\highlight1\cf0 \par
+    \highlight21\cf20 folShape\highlight19\cf18\b .\highlight21\cf20\b0 outTranslate\highlight1\cf0  \highlight19\cf18\b >>\highlight1\cf0\b0  \highlight21\cf20 fol\highlight19\cf18\b .\highlight21\cf20\b0 translate\highlight1\cf0 \par
+    \highlight21\cf20 lofted_surface\highlight19\cf18\b .\highlight21\cf20\b0 worldMatrix\highlight1\cf0  \highlight19\cf18\b >>\highlight1\cf0\b0  \highlight21\cf20 fol\highlight19\cf18\b .\highlight21\cf20\b0 inputWorldMatrix\highlight1\cf0 \par
+    \highlight21\cf20 lofted_surface\highlight19\cf18\b .\highlight21\cf20\b0 local\highlight1\cf0  \highlight19\cf18\b >>\highlight1\cf0\b0  \highlight21\cf20 fol\highlight19\cf18\b .\highlight21\cf20\b0 inputSurface\highlight1\cf0 \par
+\par
+    \highlight3\cf2\i0 # Setzt die Position des Follicles an die gew\u252?nschte Stelle.\highlight1\cf0\i0 \par
+    \highlight21\cf20 folShape\highlight19\cf18\b .\highlight21\cf20\b0 parameterU\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight21\cf20\b0 u_value\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 folShape\highlight19\cf18\b .\highlight21\cf20\b0 parameterV\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight21\cf20\b0 v_value\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \par
+\par
+    \highlight3\cf2\i0 # Erstellt einen Joint an der Position des Follicles.\highlight1\cf0\i0 \par
+    \highlight21\cf20 temp_joint\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 joint\highlight19\cf18\b (\highlight21\cf20\b0 position\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 fol\highlight19\cf18\b .\highlight21\cf20\b0 translate\highlight19\cf18\b .\highlight21\cf20\b0 get\highlight19\cf18\b ()\highlight1\cf0\b0  \highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                    \highlight21\cf20 orientation\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 fol\highlight19\cf18\b .\highlight21\cf20\b0 rotate\highlight19\cf18\b .\highlight21\cf20\b0 get\highlight19\cf18\b (),\highlight1\cf0\b0 \par
+                    \highlight21\cf20 name\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight25\cf24 f"\{\highlight21\cf20 prefix\highlight25\cf24 \}_ctrl_jnt"\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                    \highlight21\cf20 radius\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 size\highlight19\cf18\b /\highlight5\cf4\b0 2\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Der Follicle wird nicht weiter ben\u246?tigt und gel\u246?scht\highlight1\cf0\i0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 delete\highlight19\cf18\b (\highlight21\cf20\b0 fol\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 select\highlight19\cf18\b (\highlight21\cf20\b0 clear\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight19\cf18 )\highlight1\cf0\b0 \par
+\par
+    \highlight11\cf10\b return\highlight1\cf0\b0  \highlight21\cf20 temp_joint\highlight1\cf0 \par
+\par
+\par
+\highlight13\cf12\i0 """\par
+Diese Funktion erstellt einen Controller an der Position des Joints. \par
+Sie erwartet als Eingabe den gew\u252?nschten Joint, die \u220?bergruppe\par
+aller Joints sowie die definierte Gr\u246?\u223?e.\par
+Die Funktion gibt keinen Wert zur\u252?ck.\par
+"""\highlight1\cf0\i0  \par
+\highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 create_controller\highlight19\cf18\b (\highlight21\cf20\b0 joint\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 main_controller_grp\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 size\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Speichert den Namen des Joints in einer Variablen und \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # filtert lediglich den Teil vor _jnt heraus. \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # Dies ist der Name des Controllers.\highlight1\cf0\i0 \par
+    \highlight21\cf20 jointName\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 joint\highlight19\cf18\b .\highlight21\cf20\b0 name\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+    \highlight21\cf20 positionString\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 jointName\highlight19\cf18\b .\highlight21\cf20\b0 index\highlight19\cf18\b (\highlight7\cf6\b0 "_jnt"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 controller_prefix\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 jointName\highlight19\cf18\b [\highlight5\cf4\b0 0\highlight19\cf18\b :\highlight21\cf20\b0 positionString\highlight19\cf18\b ]\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Erstellt die Obergruppe und Puffergruppe des Controllers \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # und legt die Puffergruppe unter die Obergruppe.\highlight1\cf0\i0 \par
+    \highlight21\cf20 ctrl_grp\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 group\highlight19\cf18\b (\highlight21\cf20\b0 name\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight25\cf24 f"\{\highlight21\cf20 controller_prefix\highlight25\cf24 \}_grp"\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                        \highlight21\cf20 empty\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight1\cf0\b0  \highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 ctrl_buffer_grp\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 group\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                        \highlight21\cf20 name\highlight1\cf0  \highlight19\cf18\b =\highlight25\cf24\b0 f"\{\highlight21\cf20 controller_prefix\highlight25\cf24 \}_buffer_grp"\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                        \highlight21\cf20 empty\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight19\cf18 )\highlight1\cf0\b0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight21\cf20\b0 ctrl_buffer_grp\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 ctrl_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Erstellt den Controller und legt diesen unter die Puffergruppe.\highlight1\cf0\i0 \par
+    \highlight21\cf20 controller\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 circle\highlight19\cf18\b (\highlight21\cf20\b0 name\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 controller_prefix\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 radius\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 size\highlight19\cf18\b /\highlight5\cf4\b0 4\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight21\cf20\b0 controller\highlight19\cf18\b [\highlight5\cf4\b0 0\highlight19\cf18\b ],\highlight1\cf0\b0  \highlight21\cf20 ctrl_buffer_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Setzt die Transformationswerte der Obergruppe des Controllers\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # mit denen des Joints gleich.\highlight1\cf0\i0 \par
+    \highlight21\cf20 ctrl_grp\highlight19\cf18\b .\highlight21\cf20\b0 translate\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight21\cf20\b0 joint\highlight19\cf18\b .\highlight21\cf20\b0 translate\highlight19\cf18\b .\highlight21\cf20\b0 get\highlight19\cf18\b ())\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Pr\u252?ft, ob es sich bei dem erstellten Controller um \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # einen Seitencontroller handelt, sollte dies nicht der Fall \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # sein, werden die Rotationswerte der Obergruppe \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # des Controllers auch mit denen des Joints gleichgesetzt.\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # Die Rotationswerte der seitlichen Joints sind meist extrem und \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # w\u252?rden ein Verschwinden des Controllers in \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # der Geometrie verursachen.\highlight1\cf0\i0 \par
+    \highlight11\cf10\b if\highlight1\cf0\b0  \highlight21\cf20 jointName\highlight19\cf18\b .\highlight21\cf20\b0 find\highlight19\cf18\b (\highlight7\cf6\b0 "_L_"\highlight19\cf18\b )\highlight1\cf0\b0  \highlight19\cf18\b ==\highlight1\cf0\b0  \highlight19\cf18\b -\highlight5\cf4\b0 1\highlight1\cf0  \highlight11\cf10\b and\highlight1\cf0\b0  \highlight21\cf20 jointName\highlight19\cf18\b .\highlight21\cf20\b0 find\highlight19\cf18\b (\highlight7\cf6\b0 "_R_"\highlight19\cf18\b )\highlight1\cf0\b0  \highlight19\cf18\b ==\highlight1\cf0\b0  \highlight19\cf18\b -\highlight5\cf4\b0 1\highlight1\cf0  \highlight19\cf18\b :\highlight1\cf0\b0 \par
+        \highlight21\cf20 ctrl_grp\highlight19\cf18\b .\highlight21\cf20\b0 rotate\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight21\cf20\b0 joint\highlight19\cf18\b .\highlight21\cf20\b0 jointOrient\highlight19\cf18\b .\highlight21\cf20\b0 get\highlight19\cf18\b ())\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Macht den Joint durch einen Parent-Constraint von\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # dem Controller abh\u228?ngig.\highlight1\cf0\i0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parentConstraint\highlight19\cf18\b (\highlight21\cf20\b0 controller\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 joint\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 maintainOffset\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Legt das Konstrukt des Controllers unter\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # die \u220?bergruppe aller Joints\highlight1\cf0\i0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight21\cf20\b0 ctrl_grp\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 main_controller_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Versteckt und sperrt die Attribute zum Skalieren und\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # \u196?ndern der Sichtbarkeit, diese werden nicht ben\u246?tigt\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # und sollten nicht mehr anw\u228?hlbar sein.\highlight1\cf0\i0 \par
+    \highlight21\cf20 controller\highlight19\cf18\b [\highlight5\cf4\b0 0\highlight19\cf18\b ].\highlight21\cf20\b0 sx\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight21\cf20\b0 keyable\highlight19\cf18\b =\highlight5\cf4\b0 0\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 lock\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 controller\highlight19\cf18\b [\highlight5\cf4\b0 0\highlight19\cf18\b ].\highlight21\cf20\b0 sy\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight21\cf20\b0 keyable\highlight19\cf18\b =\highlight5\cf4\b0 0\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 lock\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 controller\highlight19\cf18\b [\highlight5\cf4\b0 0\highlight19\cf18\b ].\highlight21\cf20\b0 sz\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight21\cf20\b0 keyable\highlight19\cf18\b =\highlight5\cf4\b0 0\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 lock\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 controller\highlight19\cf18\b [\highlight5\cf4\b0 0\highlight19\cf18\b ].\highlight21\cf20\b0 v\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight21\cf20\b0 keyable\highlight19\cf18\b =\highlight5\cf4\b0 0\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 lock\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Ver\u228?ndert die Farbe der Controller, abh\u228?ngig davon, \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # ob diese ein Haupt- oder Nebencontroller sind.\highlight1\cf0\i0 \par
+    \highlight21\cf20 controller\highlight19\cf18\b [\highlight5\cf4\b0 0\highlight19\cf18\b ].\highlight21\cf20\b0 getShape\highlight19\cf18\b ().\highlight21\cf20\b0 overrideEnabled\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+\par
+    \highlight11\cf10\b if\highlight1\cf0\b0  \highlight19\cf18\b (\highlight21\cf20\b0 jointName\highlight19\cf18\b .\highlight21\cf20\b0 find\highlight19\cf18\b (\highlight7\cf6\b0 "_D_"\highlight19\cf18\b )\highlight1\cf0\b0   \highlight19\cf18\b !=\highlight1\cf0\b0  \highlight19\cf18\b -\highlight5\cf4\b0 1\highlight1\cf0  \highlight11\cf10\b or\highlight1\cf0\b0  \highlight21\cf20 jointName\highlight19\cf18\b .\highlight21\cf20\b0 find\highlight19\cf18\b (\highlight7\cf6\b0 "_L_"\highlight19\cf18\b )\highlight1\cf0\b0   \highlight19\cf18\b !=\highlight1\cf0\b0  \highlight19\cf18\b -\highlight5\cf4\b0 1\highlight1\cf0  \par
+        \highlight11\cf10\b or\highlight1\cf0\b0  \highlight21\cf20 jointName\highlight19\cf18\b .\highlight21\cf20\b0 find\highlight19\cf18\b (\highlight7\cf6\b0 "_U_"\highlight19\cf18\b )\highlight1\cf0\b0   \highlight19\cf18\b !=\highlight1\cf0\b0  \highlight19\cf18\b -\highlight5\cf4\b0 1\highlight1\cf0 \par
+        \highlight11\cf10\b or\highlight1\cf0\b0  \highlight21\cf20 jointName\highlight19\cf18\b .\highlight21\cf20\b0 find\highlight19\cf18\b (\highlight7\cf6\b0 "_R_"\highlight19\cf18\b )\highlight1\cf0\b0   \highlight19\cf18\b !=\highlight1\cf0\b0  \highlight19\cf18\b -\highlight5\cf4\b0 1\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+        \highlight21\cf20 controller\highlight19\cf18\b [\highlight5\cf4\b0 0\highlight19\cf18\b ].\highlight21\cf20\b0 getShape\highlight19\cf18\b ().\highlight21\cf20\b0 overrideColor\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight5\cf4\b0 17\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight11\cf10\b else\highlight19\cf18 :\highlight1\cf0\b0 \par
+        \highlight21\cf20 controller\highlight19\cf18\b [\highlight5\cf4\b0 0\highlight19\cf18\b ].\highlight21\cf20\b0 getShape\highlight19\cf18\b ().\highlight21\cf20\b0 overrideColor\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight5\cf4\b0 13\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Bewegt den Controller etwas von der Oberfl\u228?che\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # der Geometrie weg.\highlight1\cf0\i0 \par
+    \highlight21\cf20 points\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 select\highlight19\cf18\b (\highlight25\cf24\b0 f"\{\highlight21\cf20 controller\highlight19\cf18\b [\highlight5\cf4\b0 0\highlight19\cf18\b ]\highlight25\cf24\b0 \}.cv[0:7]"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 move\highlight19\cf18\b (\highlight5\cf4\b0 0\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 0\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 size\highlight19\cf18\b /\highlight5\cf4\b0 4\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 points\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 relative\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight19\cf18 ,\highlight1\cf0\b0  \par
+                \highlight21\cf20 worldSpace\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight19\cf18 ,\highlight1\cf0\b0  \highlight21\cf20 worldSpaceDistance\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight19\cf18 )\highlight1\cf0\b0 \par
+\par
+\highlight13\cf12\i0 """\par
+Diese beiden unteren Funktionen erstellen die Abh\u228?ngigkeiten \par
+zwischen den Neben- und Hauptcontrollern. \par
+Die create_blend_for_segment_controller() Funktion erwartet \par
+als Eingabe das Pr\u228?fix. Die create_blend() Funktion erwartet \par
+als Eingabe einen seitlichen- sowie mittleren Hauptcontroller und \par
+den Namen der Nebencontroller. \par
+Die Funktionen geben keinen Wert zur\u252?ck.\par
+"""\highlight1\cf0\i0  \par
+\highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 create_blend_for_segment_controller\highlight19\cf18\b (\highlight21\cf20\b0 prefix\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Speichert jeden Hauptcontroller anhand seines Namens\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # in einer Variablen.\highlight1\cf0\i0 \par
+    \highlight21\cf20 controller_left\highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 ls\highlight19\cf18\b (\highlight25\cf24\b0 f"\{\highlight21\cf20 prefix\highlight25\cf24 \}_L_ctrl"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 controller_right\highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 ls\highlight19\cf18\b (\highlight25\cf24\b0 f"\{\highlight21\cf20 prefix\highlight25\cf24 \}_R_ctrl"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 controller_middle_up\highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 ls\highlight19\cf18\b (\highlight25\cf24\b0 f"\{\highlight21\cf20 prefix\highlight25\cf24 \}_U_ctrl"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 controller_middle_down\highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 ls\highlight19\cf18\b (\highlight25\cf24\b0 f"\{\highlight21\cf20 prefix\highlight25\cf24 \}_D_ctrl"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Ruft f\u252?r jedes Segment die create_blend() Funktion auf.\highlight1\cf0\i0 \par
+    \highlight21\cf20 create_blend\highlight19\cf18\b (\highlight21\cf20\b0 controller_left\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 controller_middle_up\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                            \highlight25\cf24 f"\{\highlight21\cf20 prefix\highlight25\cf24 \}_LU_"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 create_blend\highlight19\cf18\b (\highlight21\cf20\b0 controller_left\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 controller_middle_down\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                            \highlight25\cf24 f"\{\highlight21\cf20 prefix\highlight25\cf24 \}_LD_"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 create_blend\highlight19\cf18\b (\highlight21\cf20\b0 controller_right\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 controller_middle_up\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                            \highlight25\cf24 f"\{\highlight21\cf20 prefix\highlight25\cf24 \}_RU_"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 create_blend\highlight19\cf18\b (\highlight21\cf20\b0 controller_right\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 controller_middle_down\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                            \highlight25\cf24 f"\{\highlight21\cf20 prefix\highlight25\cf24 \}_RD_"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+\highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 create_blend\highlight19\cf18\b (\highlight21\cf20\b0 side\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 middle\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 contains\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Speichert alle Controller, welche sich in \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # diesem Segment befinden, in einer Liste und \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # bestimmt die L\u228?nge der Liste.\highlight1\cf0\i0 \par
+    \highlight21\cf20 controller_segment\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0   \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 ls\highlight19\cf18\b (\highlight25\cf24\b0 f"\{\highlight21\cf20 contains\highlight25\cf24 \}*_ctrl"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+    \highlight21\cf20 length\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b len\highlight19\cf18 (\highlight21\cf20\b0 controller_segment\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Die For-Schleife iteriert f\u252?r die Anzahl der in der Liste \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # gespeicherten Controller und setzt die Abh\u228?ngigkeiten durch \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # zwei Parent-Constraints mit unterschiedlichen Einfl\u252?ssen.\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # Die Abh\u228?ngigkeiten werden auf die Puffergruppe \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # des Controllers gesetzt.\highlight1\cf0\i0 \par
+    \highlight11\cf10\b for\highlight1\cf0\b0  \highlight21\cf20 i\highlight1\cf0  \highlight11\cf10\b in\highlight1\cf0\b0  \highlight23\cf22\b range\highlight1\cf0\b0  \highlight19\cf18\b (\highlight21\cf20\b0 length\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+        \highlight21\cf20 value\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight19\cf18\b (\highlight5\cf4\b0 1\highlight19\cf18\b /(\highlight21\cf20\b0 length\highlight19\cf18\b +\highlight5\cf4\b0 1\highlight19\cf18\b ))*(\highlight21\cf20\b0 i\highlight19\cf18\b +\highlight5\cf4\b0 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 controller_temp\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight25\cf24 f"\{\highlight21\cf20 controller_segment\highlight19\cf18\b [\highlight21\cf20\b0 i\highlight19\cf18\b ].\highlight21\cf20\b0 name\highlight19\cf18\b ()\highlight25\cf24\b0 \}_buffer_grp"\highlight1\cf0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parentConstraint\highlight19\cf18\b (\highlight21\cf20\b0 side\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 controller_temp\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                \highlight21\cf20 maintainOffset\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                \highlight21\cf20 weight\highlight19\cf18\b =\highlight5\cf4\b0 1\highlight19\cf18\b -\highlight21\cf20\b0 value\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parentConstraint\highlight19\cf18\b (\highlight21\cf20\b0 middle\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 controller_temp\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                \highlight21\cf20 maintainOffset\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                \highlight21\cf20 weight\highlight19\cf18\b =\highlight21\cf20\b0 value\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \par
+\par
+\highlight13\cf12\i0 """\par
+Ben\u246?tigte Funktion, um das Fenster in Maya sichtbar zu machen.\par
+"""\highlight1\cf0\i0 \par
+\highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 mayaWindow\highlight19\cf18\b ():\highlight1\cf0\b0 \par
+    \highlight21\cf20 main_window_ptr\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 omui\highlight19\cf18\b .\highlight21\cf20\b0 MQtUtil\highlight19\cf18\b .\highlight21\cf20\b0 mainWindow\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+    \highlight11\cf10\b return\highlight1\cf0\b0  \highlight21\cf20 wrapInstance\highlight19\cf18\b (\highlight23\cf22 int\highlight19\cf18 (\highlight21\cf20\b0 main_window_ptr\highlight19\cf18\b ),\highlight21\cf20\b0 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QWidget\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\highlight13\cf12\i0 """\par
+Dies ist die Hauptklasse des Tools.\par
+Sie wird als erstes aufgerufen und ruft im Verlauf alle bereits definierten Funktionen auf.\par
+"""\highlight1\cf0\i0 \par
+\highlight11\cf10\b class\highlight1\cf0\b0  \highlight15\cf14\b ribbon_lip_rigger\highlight19\cf18 (\highlight21\cf20\b0 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QDialog\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+        \par
+    \highlight3\cf2\i0 #Konstruktor\highlight1\cf0\i0 \par
+    \highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 __init__\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b ,\highlight21\cf20\b0 parent\highlight19\cf18\b =\highlight21\cf20\b0 mayaWindow\highlight19\cf18\b ()):\highlight1\cf0\b0 \par
+            \par
+        \highlight3\cf2\i0 # Definiert Standardwerte jeder ben\u246?tigten \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # Variablen in der Klasse.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 winName\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight7\cf6 "Mouth Rigger"\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 geo_name\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight7\cf6 ""\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_on_edge\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 v_value\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0.5\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight7\cf6 ""\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_right_corner\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0.75\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_left_corner\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0.25\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_upper_corner\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_lower_corner\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0.5\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 segments_between_corner_points\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b /\highlight5\cf4\b0 4\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 deformer_grp\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0\highlight1\cf0  \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 follicle_grp\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 binding_joint_grp\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0\highlight1\cf0   \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 controller_grp\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 size\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 direction_counter_clockwise\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b False\highlight1\cf0\b0 \par
+        \par
+\par
+        \highlight23\cf22\b super\highlight19\cf18 (\highlight21\cf20\b0 ribbon_lip_rigger\highlight19\cf18\b ,\highlight21\cf20\b0 self\highlight19\cf18\b ).\highlight21\cf20\b0 __init__\highlight19\cf18\b (\highlight21\cf20\b0 parent\highlight19\cf18\b )\highlight1\cf0\b0 \par
+              \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 setWindowTitle\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 winName\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 setWindowFlags\highlight19\cf18\b (\highlight21\cf20\b0 QtCore\highlight19\cf18\b .\highlight21\cf20\b0 Qt\highlight19\cf18\b .\highlight21\cf20\b0 Window\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 setAttribute\highlight19\cf18\b (\highlight21\cf20\b0 QtCore\highlight19\cf18\b .\highlight21\cf20\b0 Qt\highlight19\cf18\b .\highlight21\cf20\b0 WA_DeleteOnClose\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 resize\highlight19\cf18\b (\highlight5\cf4\b0 400\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 250\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 layout\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+    \par
+    \highlight3\cf2\i0 # Diese Funktion definiert den Aufbau der Bedienfl\u228?che.\highlight1\cf0\i0 \par
+    \highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 layout\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Teilt die Bedienfl\u228?che in zwei Hauptgruppen ein.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_group\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QGroupBox\highlight19\cf18\b (\highlight7\cf6\b0 "User Input"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_group\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QGroupBox\highlight19\cf18\b (\highlight7\cf6\b0 "Individualize"\highlight19\cf18\b +\highlight1\cf0\b0 \par
+                                        \highlight7\cf6 " and Finish"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \par
+\par
+        \highlight3\cf2\i0 # Erstellt das Layout f\u252?r den Text zur Beschreibung \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # der Eingabe von den Nutzenden. \highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_text_layout\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QVBoxLayout\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_text_layout\highlight19\cf18\b .\highlight21\cf20\b0 setContentsMargins\highlight19\cf18\b (\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_text_01\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QLabel\highlight19\cf18\b (\highlight7\cf6\b0 "Select two edge"\highlight1\cf0  \highlight19\cf18\b +\highlight1\cf0\b0  \par
+                                        \highlight7\cf6 " loops around the mouth"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_text_02\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QLabel\highlight19\cf18\b (\highlight7\cf6\b0 "Then select the"\highlight19\cf18\b +\highlight1\cf0\b0 \par
+                                        \highlight7\cf6 " upper middle vertex of the"\highlight19\cf18\b +\highlight1\cf0\b0  \par
+                                        \highlight7\cf6 " outer edge loop"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_text_01\highlight19\cf18\b .\highlight21\cf20\b0 setAlignment\highlight19\cf18\b (\highlight21\cf20\b0 QtCore\highlight19\cf18\b .\highlight21\cf20\b0 Qt\highlight19\cf18\b .\highlight21\cf20\b0 AlignCenter\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_text_02\highlight19\cf18\b .\highlight21\cf20\b0 setAlignment\highlight19\cf18\b (\highlight21\cf20\b0 QtCore\highlight19\cf18\b .\highlight21\cf20\b0 Qt\highlight19\cf18\b .\highlight21\cf20\b0 AlignCenter\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_text_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_text_01\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_text_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_text_02\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+        \highlight3\cf2\i0 # Erstellt das Layout f\u252?r die Eingabe des Pr\u228?fixes. \highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix_layout\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QHBoxLayout\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix_layout\highlight19\cf18\b .\highlight21\cf20\b0 setContentsMargins\highlight19\cf18\b (\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix_titel\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QLabel\highlight19\cf18\b (\highlight7\cf6\b0 "Prefix:"\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix_text\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QLineEdit\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix_text\highlight19\cf18\b .\highlight21\cf20\b0 setText\highlight19\cf18\b (\highlight7\cf6\b0 "Lip"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix_titel\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix_text\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+        \highlight3\cf2\i0 # Erstellt das Layout f\u252?r die Eingabe des ersten Edge-Loops. \highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_layout\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QHBoxLayout\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_layout\highlight19\cf18\b .\highlight21\cf20\b0 setContentsMargins\highlight19\cf18\b (\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_titel\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QLabel\highlight19\cf18\b (\highlight7\cf6\b0 "First"\highlight19\cf18\b +\highlight1\cf0\b0 \par
+                                        \highlight7\cf6 " Edge Loop:"\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_text\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QLineEdit\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_text\highlight19\cf18\b .\highlight21\cf20\b0 setReadOnly\highlight19\cf18\b (\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_text\highlight19\cf18\b .\highlight21\cf20\b0 deselect\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_button\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QPushButton\highlight19\cf18\b (\highlight7\cf6\b0 "<<"\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                        \highlight21\cf20 self\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_titel\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_text\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_button\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+        \highlight3\cf2\i0 # Erstellt das Layout f\u252?r die Eingabe des zweiten Edge-Loops. \highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_layout\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QHBoxLayout\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_layout\highlight19\cf18\b .\highlight21\cf20\b0 setContentsMargins\highlight19\cf18\b (\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_titel\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QLabel\highlight19\cf18\b (\highlight7\cf6\b0 "Second"\highlight19\cf18\b +\highlight1\cf0\b0 \par
+                                        \highlight7\cf6 " Edge Loop:"\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_text\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QLineEdit\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_text\highlight19\cf18\b .\highlight21\cf20\b0 setReadOnly\highlight19\cf18\b (\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_text\highlight19\cf18\b .\highlight21\cf20\b0 deselect\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_button\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QPushButton\highlight19\cf18\b (\highlight7\cf6\b0 "<<"\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                        \highlight21\cf20 self\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_titel\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_text\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_button\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+        \highlight3\cf2\i0 # Erstellt das Layout f\u252?r die Eingabe des Vertexpunktes. \highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_layout\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QHBoxLayout\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_layout\highlight19\cf18\b .\highlight21\cf20\b0 setContentsMargins\highlight19\cf18\b (\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_titel\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QLabel\highlight19\cf18\b (\highlight7\cf6\b0 "Vertex:"\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_text\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QLineEdit\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_text\highlight19\cf18\b .\highlight21\cf20\b0 setReadOnly\highlight19\cf18\b (\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_text\highlight19\cf18\b .\highlight21\cf20\b0 deselect\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_button\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QPushButton\highlight19\cf18\b (\highlight7\cf6\b0 "<<"\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_titel\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_text\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_button\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+        \highlight3\cf2\i0 # Erstellt das Layout f\u252?r den Button, welcher \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # die Eingabe best\u228?tigt. \highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_button_layout\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QHBoxLayout\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_button_layout\highlight19\cf18\b .\highlight21\cf20\b0 setContentsMargins\highlight19\cf18\b (\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_button\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QPushButton\highlight19\cf18\b (\highlight7\cf6\b0 "Confirm"\highlight19\cf18\b ,\highlight21\cf20\b0 self\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_button_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight1\cf0 \\\par
+                                            \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_button\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+        \highlight3\cf2\i0 # Verbindet alle erstellten Layouts mit\highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # der ersten Hauptgruppe.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_layout\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QVBoxLayout\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_layout\highlight19\cf18\b .\highlight21\cf20\b0 setContentsMargins\highlight19\cf18\b (\highlight5\cf4\b0 6\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 6\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 2\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_layout\highlight19\cf18\b .\highlight21\cf20\b0 addLayout\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix_layout\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_layout\highlight19\cf18\b .\highlight21\cf20\b0 addLayout\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_text_layout\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_layout\highlight19\cf18\b .\highlight21\cf20\b0 addLayout\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_layout\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_layout\highlight19\cf18\b .\highlight21\cf20\b0 addLayout\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_layout\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_layout\highlight19\cf18\b .\highlight21\cf20\b0 addLayout\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_layout\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_layout\highlight19\cf18\b .\highlight21\cf20\b0 addLayout\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_button_layout\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_group\highlight19\cf18\b .\highlight21\cf20\b0 setLayout\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_layout\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+        \highlight3\cf2\i0 # Erstellt das Layout f\u252?r den Text zur Beschreibung \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # der Erstellung der Zwischenjoints.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_01_layout\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QVBoxLayout\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_01_layout\highlight19\cf18\b .\highlight21\cf20\b0 setContentsMargins\highlight19\cf18\b (\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_01\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QLabel\highlight19\cf18\b (\highlight7\cf6\b0 "Create joints in"\highlight19\cf18\b +\highlight1\cf0\b0  \par
+                                        \highlight7\cf6 " between the ones that"\highlight19\cf18\b +\highlight1\cf0\b0  \par
+                                        \highlight7\cf6 " already exist"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_01\highlight19\cf18\b .\highlight21\cf20\b0 setAlignment\highlight19\cf18\b (\highlight21\cf20\b0 QtCore\highlight19\cf18\b .\highlight21\cf20\b0 Qt\highlight19\cf18\b .\highlight21\cf20\b0 AlignCenter\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_01_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight1\cf0 \\\par
+                                        \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_01\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+        \highlight3\cf2\i0 # Erstellt das Layout f\u252?r den Zahlenregler.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_layout\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QHBoxLayout\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_layout\highlight19\cf18\b .\highlight21\cf20\b0 setContentsMargins\highlight19\cf18\b (\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_text\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QLineEdit\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_text\highlight19\cf18\b .\highlight21\cf20\b0 setText\highlight19\cf18\b (\highlight7\cf6\b0 "0"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_text\highlight19\cf18\b .\highlight21\cf20\b0 setReadOnly\highlight19\cf18\b (\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_text\highlight19\cf18\b .\highlight21\cf20\b0 deselect\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_slider\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QSlider\highlight1\cf0 \\\par
+                                        \highlight19\cf18\b (\highlight21\cf20\b0 QtCore\highlight19\cf18\b .\highlight21\cf20\b0 Qt\highlight19\cf18\b .\highlight21\cf20\b0 Horizontal\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_slider\highlight19\cf18\b .\highlight21\cf20\b0 setValue\highlight19\cf18\b (\highlight5\cf4\b0 0\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_slider\highlight19\cf18\b .\highlight21\cf20\b0 setMinimum\highlight19\cf18\b (\highlight5\cf4\b0 0\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_slider\highlight19\cf18\b .\highlight21\cf20\b0 setMaximum\highlight19\cf18\b (\highlight5\cf4\b0 10\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_slider\highlight19\cf18\b .\highlight21\cf20\b0 setTickPosition\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QSlider\highlight19\cf18\b .\highlight21\cf20\b0 TicksBelow\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_text\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_slider\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+        \highlight3\cf2\i0 # Erstellt das Layout f\u252?r den Text, welcher die \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # finalen Schritte erkl\u228?rt.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_02_layout\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QVBoxLayout\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_02_layout\highlight19\cf18\b .\highlight21\cf20\b0 setContentsMargins\highlight19\cf18\b (\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_02\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QLabel\highlight19\cf18\b (\highlight7\cf6\b0 "Move the joints"\highlight19\cf18\b +\highlight1\cf0\b0 \par
+                                    \highlight7\cf6 " to match the desired position"\highlight1\cf0  \highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_03\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QLabel\highlight19\cf18\b (\highlight7\cf6\b0 "If you are"\highlight19\cf18\b +\highlight1\cf0\b0 \par
+                                    \highlight7\cf6 " happy, finish the rig by"\highlight19\cf18\b +\highlight1\cf0\b0 \par
+                                    \highlight7\cf6 " pressing the button"\highlight1\cf0  \highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_02\highlight19\cf18\b .\highlight21\cf20\b0 setAlignment\highlight19\cf18\b (\highlight21\cf20\b0 QtCore\highlight19\cf18\b .\highlight21\cf20\b0 Qt\highlight19\cf18\b .\highlight21\cf20\b0 AlignCenter\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_03\highlight19\cf18\b .\highlight21\cf20\b0 setAlignment\highlight19\cf18\b (\highlight21\cf20\b0 QtCore\highlight19\cf18\b .\highlight21\cf20\b0 Qt\highlight19\cf18\b .\highlight21\cf20\b0 AlignCenter\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_02_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight1\cf0 \\\par
+                                        \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_02\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_02_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight1\cf0 \\\par
+                                        \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_03\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+        \highlight3\cf2\i0 # Erstellt das Layout f\u252?r den Button, welcher \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # das Rig fertigstellt.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_button_layout\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QHBoxLayout\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_button_layout\highlight19\cf18\b .\highlight21\cf20\b0 setContentsMargins\highlight19\cf18\b (\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight5\cf4\b0 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_button\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QPushButton\highlight19\cf18\b (\highlight7\cf6\b0 "Finish"\highlight19\cf18\b ,\highlight21\cf20\b0 self\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_button_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight1\cf0 \\\par
+                                        \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_button\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+        \highlight3\cf2\i0 # Verbindet die neu erstellten Layouts mit\highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # der zweiten Hauptgruppe.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_layout\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QVBoxLayout\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_layout\highlight19\cf18\b .\highlight21\cf20\b0 setContentsMargins\highlight19\cf18\b (\highlight5\cf4\b0 6\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 6\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 2\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_layout\highlight19\cf18\b .\highlight21\cf20\b0 addLayout\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_01_layout\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_layout\highlight19\cf18\b .\highlight21\cf20\b0 addLayout\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_layout\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_layout\highlight19\cf18\b .\highlight21\cf20\b0 addLayout\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_text_02_layout\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_layout\highlight19\cf18\b .\highlight21\cf20\b0 addLayout\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_button_layout\highlight19\cf18\b )\highlight1\cf0\b0  \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_group\highlight19\cf18\b .\highlight21\cf20\b0 setLayout\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_layout\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+        \highlight3\cf2\i0 # Verbindet die beiden Hauptgruppen mit dem Hauptlayout und\highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # setzt dieses.\highlight1\cf0\i0 \par
+        \highlight21\cf20 main_layout\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 QtWidgets\highlight19\cf18\b .\highlight21\cf20\b0 QVBoxLayout\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 main_layout\highlight19\cf18\b .\highlight21\cf20\b0 setContentsMargins\highlight19\cf18\b (\highlight5\cf4\b0 6\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 6\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 6\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight5\cf4 6\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 main_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_group\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 main_layout\highlight19\cf18\b .\highlight21\cf20\b0 addWidget\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_group\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 setLayout\highlight19\cf18\b (\highlight21\cf20\b0 main_layout\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\tab \tab \par
+        \highlight3\cf2\i0 # F\u252?gt Aktionen zu den Buttons und dem Zahlenregler hinzu.\highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # Diese werden ausgef\u252?hrt, sobald der Button bet\u228?tigt\highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # oder der Wert des Zahlenreglers ver\u228?ndert wird.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_button\highlight19\cf18\b .\highlight21\cf20\b0 clicked\highlight19\cf18\b .\highlight21\cf20\b0 connect\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 get_first_edge_loop\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_button\highlight19\cf18\b .\highlight21\cf20\b0 clicked\highlight19\cf18\b .\highlight21\cf20\b0 connect\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 get_2nd_edge_loop\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_button\highlight19\cf18\b .\highlight21\cf20\b0 clicked\highlight19\cf18\b .\highlight21\cf20\b0 connect\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 get_vertex_on_edge_loop\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input_button\highlight19\cf18\b .\highlight21\cf20\b0 clicked\highlight19\cf18\b .\highlight21\cf20\b0 connect\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 user_input\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_slider\highlight19\cf18\b .\highlight21\cf20\b0 valueChanged\highlight19\cf18\b .\highlight21\cf20\b0 connect\highlight1\cf0 \\\par
+                                    \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 segment_joints\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig_button\highlight19\cf18\b .\highlight21\cf20\b0 clicked\highlight19\cf18\b .\highlight21\cf20\b0 connect\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 finish_rig\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \par
+    \highlight3\cf2\i0 # Diese Funktion erstellt den ersten Teil des Rigges.\highlight1\cf0\i0 \par
+    \highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 user_input\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+        \par
+        \highlight3\cf2\i0 # Speichert die eingegebenen Elemente in \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # einer neuen Variablen.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix_text\highlight19\cf18\b .\highlight21\cf20\b0 text\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+        \highlight21\cf20 first_edge_loop\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_Loop\highlight1\cf0 \par
+        \highlight21\cf20 second_edge_loop\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_Loop\highlight1\cf0 \par
+        \highlight21\cf20 vertex_on_edge\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_on_edge\highlight1\cf0 \par
+\par
+        \highlight3\cf2\i0 # Erstellt die deformer_grp der Ordnerstruktur.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 deformer_grp\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 group\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                                \highlight21\cf20 name\highlight19\cf18\b =\highlight25\cf24\b0 f"\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_deformer_grp"\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                                \highlight21\cf20 empty\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 ,\highlight1\cf0\b0  \highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Ruft die Funktion zur Erstellung der NURBS-Kurven auf und \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # legt diese in die deformer_grp.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 curve_1\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 get_edge_curve\highlight19\cf18\b (\highlight21\cf20\b0 first_edge_loop\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                        \highlight21\cf20 numCurve\highlight19\cf18\b =\highlight5\cf4\b0 1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 curve_2\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 get_edge_curve\highlight19\cf18\b (\highlight21\cf20\b0 second_edge_loop\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                        \highlight21\cf20 numCurve\highlight19\cf18\b =\highlight5\cf4\b0 2\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 curve_1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 deformer_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 curve_2\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 deformer_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \par
+        \highlight3\cf2\i0 # Ruft die Funktion zur Bestimmung der ben\u246?tigten Anzahl \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # an Joints und Controllern auf.\highlight1\cf0\i0 \par
+        \highlight21\cf20 u_count\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 get_edge_count\highlight19\cf18\b (\highlight21\cf20\b0 first_edge_loop\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Ruft die Funktion zur Bestimmung der Gr\u246?\u223?e auf.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 size\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 get_reference_size\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 curve_1\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 curve_2\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Ruft die Funktion zur Erstellung der NURBS-Regelfl\u228?che auf \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # und legt diese in die deformer_grp.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 get_lofted_surface\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 curve_1\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                    \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 curve_2\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                                    \highlight21\cf20 vertex_on_edge\highlight19\cf18\b ,\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 deformer_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Erstellt die Gruppen f\u252?r die Follicles und\highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # deformierenden Joints.\highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # Die follice_grp wird in die deformer_grp gelegt.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 follicle_grp\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 group\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                                \highlight21\cf20 name\highlight19\cf18\b =\highlight25\cf24\b0 f"\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_follicle_grp"\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                \highlight21\cf20 empty\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 follicle_grp\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 deformer_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 binding_joint_grp\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 group\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                                \highlight21\cf20 name\highlight19\cf18\b =\highlight25\cf24\b0 f"\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_binding_"\highlight19\cf18\b +\highlight1\cf0\b0 \par
+                                    \highlight7\cf6 "joints_grp"\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 empty\highlight19\cf18\b =\highlight23\cf22 True\highlight1\cf0\b0  \highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Ruft die Funktion zur Erstellung der Follicles und \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # deformierenden Joints auf.\highlight1\cf0\i0 \par
+        \highlight21\cf20 create_surface_ribbons\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                    \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 follicle_grp\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 binding_joint_grp\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                    \highlight21\cf20 u_count\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 size\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \par
+        \highlight3\cf2\i0 # F\u252?r den weiteren Verlauf werden die Elemente in \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # der deformer_grp und der binding_joint_grp \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # nicht gebraucht. \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # Daher wird die Sichtbarkeit dieser ver\u228?ndert.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 deformer_grp\highlight19\cf18\b .\highlight21\cf20\b0 v\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight23\cf22 False\highlight19\cf18 )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 binding_joint_grp\highlight19\cf18\b .\highlight21\cf20\b0 v\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight23\cf22 False\highlight19\cf18 )\highlight1\cf0\b0 \par
+        \par
+\par
+        \highlight3\cf2\i0 # Erstellt den H\u252?llk\u246?rper der NURBS-Regelfl\u228?che und berechnet \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # den mittleren Y-Wert.\highlight1\cf0\i0 \par
+        \highlight21\cf20 bbx\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 exactWorldBoundingBox\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 bbx_yAverage\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight19\cf18\b (\highlight21\cf20\b0 bbx\highlight19\cf18\b [\highlight5\cf4\b0 4\highlight19\cf18\b ]-\highlight1\cf0\b0  \highlight21\cf20 bbx\highlight19\cf18\b [\highlight5\cf4\b0 1\highlight19\cf18\b ])\highlight1\cf0\b0  \highlight19\cf18\b /\highlight5\cf4\b0 2\highlight1\cf0 \par
+        \highlight21\cf20 bbx_yResult\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 bbx\highlight19\cf18\b [\highlight5\cf4\b0 1\highlight19\cf18\b ]\highlight1\cf0\b0  \highlight19\cf18\b +\highlight1\cf0\b0  \highlight21\cf20 bbx_yAverage\highlight1\cf0 \par
+\par
+        \highlight3\cf2\i0 # Berechnet den U-Wert f\u252?r die Seiten, um die Richtung der \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # NURBS-Regelfl\u228?che zu bestimmen.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_right_corner\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 get_corner_point\highlight19\cf18\b (\highlight21\cf20\b0 bbx\highlight19\cf18\b [\highlight5\cf4\b0 0\highlight19\cf18\b ]\highlight1\cf0\b0  \highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                        \highlight21\cf20 bbx_yResult\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 bbx\highlight19\cf18\b [\highlight5\cf4\b0 2\highlight19\cf18\b ],\highlight1\cf0\b0 \par
+                                        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_left_corner\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 get_corner_point\highlight19\cf18\b (\highlight21\cf20\b0 bbx\highlight19\cf18\b [\highlight5\cf4\b0 3\highlight19\cf18\b ]\highlight1\cf0\b0  \highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                        \highlight21\cf20 bbx_yResult\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 bbx\highlight19\cf18\b [\highlight5\cf4\b0 2\highlight19\cf18\b ],\highlight1\cf0\b0 \par
+                                        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Sollte die Richtung gegen den Uhrzeigersinn gehen, \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # werden die U-Werte der linken und rechten Seite getauscht.\highlight1\cf0\i0 \par
+        \highlight11\cf10\b if\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_right_corner\highlight1\cf0  \highlight19\cf18\b <\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_left_corner\highlight19\cf18\b :\highlight1\cf0\b0 \par
+            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 direction_counter_clockwise\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight1\cf0\b0 \par
+            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_right_corner\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0.25\highlight1\cf0 \par
+            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_left_corner\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0.75\highlight1\cf0 \par
+\par
+        \highlight3\cf2\i0 # Ruft die Funktion zur Erstellung der vier Hauptjoints auf.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 right_corner_joint\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 set_control_joints\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                                    \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_right_corner\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                    \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 v_value\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                    \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                    \highlight25\cf24 f"\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_R"\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 size\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 left_corner_joint\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 set_control_joints\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                                    \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_left_corner\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                    \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 v_value\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                    \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                    \highlight25\cf24 f"\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_L"\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 size\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 upper_corner_joint\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 set_control_joints\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                                    \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_upper_corner\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                    \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 v_value\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                    \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                    \highlight25\cf24 f"\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_U"\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 size\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 lower_corner_joint\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 set_control_joints\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                                    \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_lower_corner\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                    \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 v_value\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                    \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                    \highlight25\cf24 f"\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_D"\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 size\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+\par
+\par
+    \highlight3\cf2\i0 # Diese Funktion wird nach jeder \u196?nderung des \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # Zahlenreglers aufgerufen und erstellt die Zwischenjoints.\highlight1\cf0\i0 \par
+    \highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 segment_joints\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 value\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Der aktuelle Wert des Zahlenreglers wird in\highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # einer Variablen gespeichert.\highlight1\cf0\i0 \par
+        \highlight21\cf20 slider_value\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 value\highlight1\cf0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 inbetween_joints_text\highlight19\cf18\b .\highlight21\cf20\b0 setText\highlight19\cf18\b (\highlight23\cf22 str\highlight19\cf18 (\highlight21\cf20\b0 value\highlight19\cf18\b ))\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Um die Interaktivit\u228?t zu erm\u246?glichen, werden \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # die Zwischenjoints in einer Gruppe gespeichert,\highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # diese wird bei jedem Aufrufen dieser Funktion \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # auf Existenz gepr\u252?ft und gegebenenfalls gel\u246?scht.\highlight1\cf0\i0 \par
+        \highlight11\cf10\b if\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 objExists\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight19\cf18\b )\highlight1\cf0\b0  \highlight19\cf18\b ==\highlight1\cf0\b0  \highlight23\cf22\b True\highlight19\cf18 :\highlight1\cf0\b0 \par
+            \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 delete\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+            \par
+        \highlight3\cf2\i0 # Erstellt die Gruppe.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 group\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                                \highlight21\cf20 name\highlight19\cf18\b =\highlight1\cf0\b0  \highlight25\cf24 f"\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_control_"\highlight19\cf18\b +\highlight1\cf0\b0 \par
+                                \highlight7\cf6 "joints_grp"\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 empty\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight1\cf0\b0  \highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+\par
+        \highlight3\cf2\i0 # Die For-Schleife iteriert f\u252?r den Wert des Zahlenreglers und \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # ruft die Funktion zur Erstellung der Joints auf. \highlight1\cf0\i0 \par
+        \highlight11\cf10\b for\highlight1\cf0\b0  \highlight21\cf20 i\highlight1\cf0  \highlight11\cf10\b in\highlight1\cf0\b0  \highlight23\cf22\b range\highlight1\cf0\b0  \highlight19\cf18\b (\highlight5\cf4\b0 1\highlight19\cf18\b ,\highlight21\cf20\b0 slider_value\highlight19\cf18\b +\highlight5\cf4\b0 1\highlight19\cf18\b )\highlight1\cf0\b0  \highlight19\cf18\b :\highlight1\cf0\b0 \par
+        \par
+            \highlight3\cf2\i0 # \u220?berpr\u252?ft die Richtung der NURBS-Regelfl\u228?che und passt\highlight1\cf0\i0 \par
+            \highlight3\cf2\i0 # die U-Werte an diese an.\highlight1\cf0\i0 \par
+            \highlight11\cf10\b if\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 direction_counter_clockwise\highlight1\cf0  \highlight19\cf18\b ==\highlight1\cf0\b0  \highlight23\cf22\b True\highlight1\cf0\b0  \highlight19\cf18\b :\highlight1\cf0\b0 \par
+                \highlight21\cf20 u_value_upper_right\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_right_corner\highlight1\cf0  \highlight19\cf18\b -\highlight1\cf0\b0  \par
+                        \highlight19\cf18\b ((\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 segments_between_corner_points\highlight19\cf18\b /\highlight1\cf0\b0 \par
+                        \highlight19\cf18\b (\highlight21\cf20\b0 slider_value\highlight19\cf18\b +\highlight5\cf4\b0 1\highlight19\cf18\b ))\highlight1\cf0\b0  \highlight19\cf18\b *\highlight21\cf20\b0 i\highlight19\cf18\b ))\highlight1\cf0\b0 \par
+                \highlight21\cf20 u_value_lower_right\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_right_corner\highlight1\cf0  \highlight19\cf18\b +\highlight1\cf0\b0  \par
+                        \highlight19\cf18\b ((\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 segments_between_corner_points\highlight19\cf18\b /\highlight1\cf0\b0 \par
+                        \highlight19\cf18\b (\highlight21\cf20\b0 slider_value\highlight19\cf18\b +\highlight5\cf4\b0 1\highlight19\cf18\b ))\highlight1\cf0\b0  \highlight19\cf18\b *\highlight21\cf20\b0 i\highlight19\cf18\b ))\highlight1\cf0\b0  \par
+                \highlight21\cf20 u_value_upper_left\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_left_corner\highlight1\cf0  \highlight19\cf18\b +\highlight1\cf0\b0  \par
+                        \highlight19\cf18\b ((\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 segments_between_corner_points\highlight19\cf18\b /\highlight1\cf0\b0 \par
+                        \highlight19\cf18\b (\highlight21\cf20\b0 slider_value\highlight19\cf18\b +\highlight5\cf4\b0 1\highlight19\cf18\b ))\highlight1\cf0\b0  \highlight19\cf18\b *\highlight21\cf20\b0 i\highlight19\cf18\b ))\highlight1\cf0\b0 \par
+                \highlight21\cf20 u_value_lower_left\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_left_corner\highlight1\cf0  \highlight19\cf18\b -\highlight1\cf0\b0  \par
+                        \highlight19\cf18\b ((\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 segments_between_corner_points\highlight19\cf18\b /\highlight1\cf0\b0 \par
+                        \highlight19\cf18\b (\highlight21\cf20\b0 slider_value\highlight19\cf18\b +\highlight5\cf4\b0 1\highlight19\cf18\b ))\highlight1\cf0\b0  \highlight19\cf18\b *\highlight21\cf20\b0 i\highlight19\cf18\b ))\highlight1\cf0\b0 \par
+            \highlight11\cf10\b else\highlight19\cf18 :\highlight1\cf0\b0 \par
+                \highlight21\cf20 u_value_upper_right\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_right_corner\highlight1\cf0  \highlight19\cf18\b +\highlight1\cf0\b0  \par
+                        \highlight19\cf18\b ((\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 segments_between_corner_points\highlight19\cf18\b /\highlight1\cf0\b0 \par
+                        \highlight19\cf18\b (\highlight21\cf20\b0 slider_value\highlight19\cf18\b +\highlight5\cf4\b0 1\highlight19\cf18\b ))\highlight1\cf0\b0  \highlight19\cf18\b *\highlight21\cf20\b0 i\highlight19\cf18\b ))\highlight1\cf0\b0 \par
+                \highlight21\cf20 u_value_lower_right\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_right_corner\highlight1\cf0  \highlight19\cf18\b -\highlight1\cf0\b0  \par
+                        \highlight19\cf18\b ((\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 segments_between_corner_points\highlight19\cf18\b /\highlight1\cf0\b0 \par
+                        \highlight19\cf18\b (\highlight21\cf20\b0 slider_value\highlight19\cf18\b +\highlight5\cf4\b0 1\highlight19\cf18\b ))\highlight1\cf0\b0  \highlight19\cf18\b *\highlight21\cf20\b0 i\highlight19\cf18\b ))\highlight1\cf0\b0  \par
+                \highlight21\cf20 u_value_upper_left\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_left_corner\highlight1\cf0  \highlight19\cf18\b -\highlight1\cf0\b0  \par
+                        \highlight19\cf18\b ((\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 segments_between_corner_points\highlight19\cf18\b /\highlight1\cf0\b0 \par
+                        \highlight19\cf18\b (\highlight21\cf20\b0 slider_value\highlight19\cf18\b +\highlight5\cf4\b0 1\highlight19\cf18\b ))\highlight1\cf0\b0  \highlight19\cf18\b *\highlight21\cf20\b0 i\highlight19\cf18\b ))\highlight1\cf0\b0 \par
+                \highlight21\cf20 u_value_lower_left\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 uValue_left_corner\highlight1\cf0  \highlight19\cf18\b +\highlight1\cf0\b0  \par
+                        \highlight19\cf18\b ((\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 segments_between_corner_points\highlight19\cf18\b /\highlight1\cf0\b0 \par
+                        \highlight19\cf18\b (\highlight21\cf20\b0 slider_value\highlight19\cf18\b +\highlight5\cf4\b0 1\highlight19\cf18\b ))\highlight1\cf0\b0  \highlight19\cf18\b *\highlight21\cf20\b0 i\highlight19\cf18\b ))\highlight1\cf0\b0 \par
+\par
+            \par
+            \highlight3\cf2\i0 # Ruft f\u252?r jeden Bereich die Funktion zur Erstellung\highlight1\cf0\i0 \par
+            \highlight3\cf2\i0 # der Joints auf.\highlight1\cf0\i0 \par
+            \highlight21\cf20 segmentJoint_upper_right\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 set_control_joints\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                                            \highlight21\cf20 u_value_upper_right\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 v_value\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                                            \highlight25\cf24 f",\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_RU_\{\highlight21\cf20 i\highlight25\cf24 \}"\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 size\highlight19\cf18\b )\highlight1\cf0\b0 \par
+            \highlight21\cf20 segmentJoint_lower_right\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 set_control_joints\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                                            \highlight21\cf20 u_value_lower_right\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 v_value\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                            \highlight25\cf24 f",\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_RD_\{\highlight21\cf20 i\highlight25\cf24 \}"\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 size\highlight19\cf18\b )\highlight1\cf0\b0 \par
+            \highlight21\cf20 segmentJoinz_upper_left\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 set_control_joints\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                                            \highlight21\cf20 u_value_upper_left\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                                            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 v_value\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                            \highlight25\cf24 f",\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_LU_\{\highlight21\cf20 i\highlight25\cf24 \}"\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 size\highlight19\cf18\b )\highlight1\cf0\b0 \par
+            \highlight21\cf20 segmentJoint_lower_left\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 set_control_joints\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                                            \highlight21\cf20 u_value_lower_left\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                                            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 v_value\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                            \highlight25\cf24 f",\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_LD_\{\highlight21\cf20 i\highlight25\cf24 \}"\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                                            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 size\highlight19\cf18\b )\highlight1\cf0\b0 \par
+            \par
+            \par
+            \highlight3\cf2\i0 # Schiebt jeden erstellten Joint in die Gruppe.\highlight1\cf0\i0 \par
+            \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight1\cf0\b0  \highlight21\cf20 segmentJoint_upper_right\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+            \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight1\cf0\b0  \highlight21\cf20 segmentJoint_lower_right\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+            \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight1\cf0\b0  \highlight21\cf20 segmentJoinz_upper_left\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+            \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight1\cf0\b0  \highlight21\cf20 segmentJoint_lower_left\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+            \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 select\highlight19\cf18\b (\highlight21\cf20\b0 clear\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight19\cf18 )\highlight1\cf0\b0 \par
+\par
+\par
+\par
+    \highlight3\cf2\i0 # Diese Funktion finalisiert das Rig.\highlight1\cf0\i0 \par
+    \highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 finish_rig\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Die NURBS-Kurven werden gel\u246?scht, da diese \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # nicht mehr ben\u246?tigt werden.\highlight1\cf0\i0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 delete\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 curve_1\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 delete\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 curve_2\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # \u220?berpr\u252?ft, ob Zwischenjoints erstellt wurden und \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # dadurch bereits eine Gruppe f\u252?r die \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # kontrollierenden Joints besteht. Sollte dies nicht \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # der Fall sein, wird diese erstellt\highlight1\cf0\i0 \par
+        \highlight11\cf10\b if\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 objExists\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight19\cf18\b )\highlight1\cf0\b0  \highlight19\cf18\b ==\highlight1\cf0\b0  \highlight23\cf22\b False\highlight19\cf18 :\highlight1\cf0\b0 \par
+            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 group\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                                \highlight21\cf20 name\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight25\cf24 f"\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_control_"\highlight1\cf0  \highlight19\cf18\b +\highlight1\cf0\b0 \par
+                                \highlight7\cf6 "joints_grp"\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 empty\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight1\cf0\b0  \highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Die vier Hauptjoints werden in diese Gruppe gelegt.\highlight1\cf0\i0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 right_corner_joint\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 left_corner_joint\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 upper_corner_joint\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 parent\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 lower_corner_joint\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Die Hauptgruppe der Controller wird erstellt.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 controller_grp\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 group\highlight19\cf18\b (\highlight1\cf0\b0 \par
+                            \highlight21\cf20 name\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight25\cf24 f"\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_controller_grp"\highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                            \highlight21\cf20 empty\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+        \par
+        \highlight3\cf2\i0 # Alle kontrollierenden Joints werden in \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # einer Liste gespeichert.\highlight1\cf0\i0 \par
+        \highlight21\cf20 selJoints\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 ls\highlight19\cf18\b (\highlight9\cf8\b0 '*_ctrl_jnt'\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 flatten\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight1\cf0\b0  \highlight19\cf18\b ,\highlight1\cf0\b0 \par
+                            \highlight21\cf20 recursive\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight19\cf18 )\highlight1\cf0\b0 \par
+\par
+        \highlight3\cf2\i0 # Die NURBS-Regelfl\u228?che wird an die \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # kontrollierenden Joints geskinnt.\highlight1\cf0\i0 \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 skinCluster\highlight19\cf18\b (\highlight21\cf20\b0 selJoints\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 lofted_surface\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 bindMethod\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight5\cf4 0\highlight19\cf18\b ,\highlight1\cf0\b0  \par
+                            \highlight21\cf20 toSelectedBones\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight19\cf18 ,\highlight1\cf0\b0 \par
+                            \highlight21\cf20 name\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight25\cf24 f"\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight25\cf24 \}_skinCluster"\highlight19\cf18\b )\highlight1\cf0\b0         \par
+\par
+        \highlight3\cf2\i0 # Die For-Schleife iteriert \u252?ber die Liste der \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # kontrollierenden Joints \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # und ruft die Funktion zur Erstellung der Controller auf. \highlight1\cf0\i0 \par
+        \highlight11\cf10\b for\highlight1\cf0\b0  \highlight21\cf20 Joints\highlight1\cf0  \highlight11\cf10\b in\highlight1\cf0\b0  \highlight21\cf20 selJoints\highlight19\cf18\b :\highlight1\cf0\b0 \par
+           \highlight21\cf20 create_controller\highlight19\cf18\b (\highlight21\cf20\b0 Joints\highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 controller_grp\highlight1\cf0  \highlight19\cf18\b ,\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 size\highlight19\cf18\b )\highlight1\cf0\b0 \par
+            \par
+        \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 select\highlight19\cf18\b (\highlight21\cf20\b0 clear\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight23\cf22\b True\highlight19\cf18 )\highlight1\cf0\b0 \par
+        \par
+        \highlight3\cf2\i0 # Die Funktion zur Erstellung der Abh\u228?ngigkeiten zwischen \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # den Controllern wird aufgerufen.\highlight1\cf0\i0 \par
+        \highlight21\cf20 create_blend_for_segment_controller\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b .\highlight21\cf20\b0 prefix\highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \par
+        \highlight3\cf2\i0 # Die kontrollierenden Joints werden versteckt und \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # die deformierenden Joints wieder sichtbar gemacht, \highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # diese werden im weiteren Verlauf zum Skinning\highlight1\cf0\i0 \par
+        \highlight3\cf2\i0 # der Geometrie ben\u246?tigt.\highlight1\cf0\i0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 binding_joint_grp\highlight19\cf18\b .\highlight21\cf20\b0 v\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+        \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 control_joint_grp\highlight19\cf18\b .\highlight21\cf20\b0 v\highlight19\cf18\b .\highlight23\cf22 set\highlight19\cf18 (\highlight23\cf22 False\highlight19\cf18 )\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Diese Funktion nimmt den ersten ausgew\u228?hlten Edge-Loop\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # und speichert diesen in einer Variablen.\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # Setzt den Text im Textfeld neben dem Button.\highlight1\cf0\i0 \par
+    \highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 get_first_edge_loop\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+        \highlight11\cf10\b if\highlight1\cf0\b0  \highlight19\cf18\b (\highlight21\cf20\b0 pm\highlight19\cf18\b .\highlight21\cf20\b0 ls\highlight19\cf18\b (\highlight21\cf20\b0 selection\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )):\highlight1\cf0\b0 \par
+            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_Loop\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 selected\highlight19\cf18\b (\highlight21\cf20\b0 flatten\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+            \highlight21\cf20 name\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight7\cf6 ""\highlight1\cf0 \par
+            \highlight11\cf10\b for\highlight1\cf0\b0  \highlight21\cf20 selObj\highlight1\cf0  \highlight11\cf10\b in\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_Loop\highlight19\cf18\b :\highlight1\cf0\b0 \par
+                \highlight21\cf20 name\highlight1\cf0  \highlight19\cf18\b +=\highlight1\cf0\b0  \highlight21\cf20 selObj\highlight19\cf18\b .\highlight21\cf20\b0 name\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+            \par
+            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 first_edge_loop_text\highlight19\cf18\b .\highlight21\cf20\b0 setText\highlight19\cf18\b (\highlight23\cf22 str\highlight19\cf18 (\highlight21\cf20\b0 name\highlight19\cf18\b ))\highlight1\cf0\b0 \par
+            \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 select\highlight19\cf18\b (\highlight1\cf0\b0  \highlight21\cf20 clear\highlight19\cf18\b =\highlight23\cf22 True\highlight1\cf0\b0  \highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+        \highlight11\cf10\b else\highlight19\cf18 :\highlight1\cf0\b0 \par
+            \highlight23\cf22\b print\highlight19\cf18 (\highlight7\cf6\b0 "Please select an edge loop"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Diese Funktion nimmt den zweiten ausgew\u228?hlten Edge-Loop\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # und speichert diesen in einer Variablen.\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # Setzt den Text im Textfeld neben dem Button.\highlight1\cf0\i0 \par
+    \highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 get_2nd_edge_loop\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+        \highlight11\cf10\b if\highlight1\cf0\b0  \highlight19\cf18\b (\highlight21\cf20\b0 pm\highlight19\cf18\b .\highlight21\cf20\b0 ls\highlight19\cf18\b (\highlight21\cf20\b0 selection\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )):\highlight1\cf0\b0 \par
+            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_Loop\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 selected\highlight19\cf18\b (\highlight21\cf20\b0 flatten\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )\highlight1\cf0\b0 \par
+            \highlight21\cf20 name\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight7\cf6 ""\highlight1\cf0 \par
+            \highlight11\cf10\b for\highlight1\cf0\b0  \highlight21\cf20 selObj\highlight1\cf0  \highlight11\cf10\b in\highlight1\cf0\b0  \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_Loop\highlight19\cf18\b :\highlight1\cf0\b0 \par
+                \highlight21\cf20 name\highlight1\cf0  \highlight19\cf18\b +=\highlight1\cf0\b0  \highlight21\cf20 selObj\highlight19\cf18\b .\highlight21\cf20\b0 name\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+            \par
+            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 second_edge_loop_text\highlight19\cf18\b .\highlight21\cf20\b0 setText\highlight19\cf18\b (\highlight23\cf22 str\highlight19\cf18 (\highlight21\cf20\b0 name\highlight19\cf18\b ))\highlight1\cf0\b0 \par
+            \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 select\highlight19\cf18\b (\highlight1\cf0\b0  \highlight21\cf20 clear\highlight19\cf18\b =\highlight23\cf22 True\highlight1\cf0\b0  \highlight19\cf18\b )\highlight1\cf0\b0 \par
+        \highlight11\cf10\b else\highlight19\cf18 :\highlight1\cf0\b0 \par
+            \highlight23\cf22\b print\highlight19\cf18 (\highlight7\cf6\b0 "Please select an edge loop"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+    \highlight3\cf2\i0 # Diese Funktion nimmt den ausgew\u228?hlten Vertexpunkt und speichert \highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # diesen in einer Variablen\highlight1\cf0\i0 \par
+    \highlight3\cf2\i0 # Setzt den Text im Textfeld neben dem Button.\highlight1\cf0\i0 \par
+    \highlight11\cf10\b def\highlight1\cf0\b0  \highlight17\cf16 get_vertex_on_edge_loop\highlight19\cf18\b (\highlight21\cf20\b0 self\highlight19\cf18\b ):\highlight1\cf0\b0 \par
+\par
+        \highlight11\cf10\b if\highlight1\cf0\b0  \highlight19\cf18\b (\highlight21\cf20\b0 pm\highlight19\cf18\b .\highlight21\cf20\b0 ls\highlight19\cf18\b (\highlight21\cf20\b0 selection\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )):\highlight1\cf0\b0 \par
+            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_on_edge\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 selected\highlight19\cf18\b (\highlight21\cf20\b0 flatten\highlight19\cf18\b =\highlight23\cf22 True\highlight19\cf18 )[\highlight5\cf4\b0 0\highlight19\cf18\b ]\highlight1\cf0\b0 \par
+            \highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_text\highlight19\cf18\b .\highlight21\cf20\b0 setText\highlight19\cf18\b (\highlight25\cf24\b0 f"\{\highlight21\cf20 self\highlight19\cf18\b .\highlight21\cf20\b0 vertex_on_edge\highlight25\cf24 \}"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+            \highlight21\cf20 pm\highlight19\cf18\b .\highlight21\cf20\b0 select\highlight19\cf18\b (\highlight1\cf0\b0  \highlight21\cf20 clear\highlight19\cf18\b =\highlight23\cf22 True\highlight1\cf0\b0  \highlight19\cf18\b )\highlight1\cf0\b0 \par
+\par
+        \highlight11\cf10\b else\highlight19\cf18 :\highlight1\cf0\b0 \par
+            \highlight23\cf22\b print\highlight19\cf18 (\highlight7\cf6\b0 "Please select the vertex"\highlight19\cf18\b )\highlight1\cf0\b0 \par
+     \par
+          \par
+\highlight3\cf2\i0 # Dies sorgt f\u252?r die Ausf\u252?hrung des Tools.                                 \highlight1\cf0\i0 \par
+\highlight11\cf10\b if\highlight1\cf0\b0  \highlight21\cf20 __name__\highlight19\cf18\b ==\highlight7\cf6\b0 "__main__"\highlight19\cf18\b :\highlight1\cf0\b0 \par
+    \highlight21\cf20 myWin\highlight1\cf0  \highlight19\cf18\b =\highlight1\cf0\b0  \highlight21\cf20 ribbon_lip_rigger\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+    \highlight21\cf20 myWin\highlight19\cf18\b .\highlight21\cf20\b0 show\highlight19\cf18\b ()\highlight1\cf0\b0 \par
+}
